@@ -30,9 +30,8 @@ def main():
         response = get_report(analytics, params, str(int(pageToken)))
         pageToken = response['reports'][0].get('nextPageToken')
         newData = parse_response(response)
-        data = pd.concat([data, newData])
+        data = pd.concat([data, newData], ignore_index=True)
 
-    data = data.reset_index(drop=True)
     print("finished fetching results")
     save_response(data, headers, params.outputFile)
     print(f"successfully saved report to {params.outputFile}")
