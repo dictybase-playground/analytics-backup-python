@@ -1,7 +1,7 @@
-VIEW_ID = 'XXXXXX'
+from analytics.params import AnalyticsParams
 
 
-def get_report(analytics):
+def get_report(analytics, params: AnalyticsParams):
     """Queries the Analytics Reporting API V4.
 
     Args:
@@ -13,8 +13,8 @@ def get_report(analytics):
         body={
             'reportRequests': [
                 {
-                    'viewId': VIEW_ID,
-                    'dateRanges': [{'startDate': 'today', 'endDate': 'today'}],
+                    'viewId': params.viewId,
+                    'dateRanges': [{'startDate': params.startDate, 'endDate': params.endDate}],
                     # https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
                     # 'metrics': [{'expression': 'ga:sessions'}, {'expression': 'ga:users'}, {'expression': 'ga:pageviews'}, {'expression': 'ga:exits'}],
                     # 'dimensions': [{'name': 'ga:date'}, {'name': 'ga:clientId'}, {'name': 'ga:pagePath'}, {'name': 'ga:previousPagePath'}, {'name': 'ga:country'}]
