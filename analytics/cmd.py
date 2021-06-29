@@ -17,4 +17,6 @@ def parse_cmdline():
         "-s", "--startDate", help="start date for analytics range", required=True)
     parser.add_argument(
         "-e", "--endDate", help="end date for analytics range", required=True)
+    parser.add_argument(
+        "-o", "--outputFile", help="csv filename to use for output data", default="analytics.csv")
     return parser.parse_args()

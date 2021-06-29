@@ -6,3 +6,4 @@ class AnalyticsParams:
     viewId: str
     startDate: str
     endDate: str
+    outputFile: str

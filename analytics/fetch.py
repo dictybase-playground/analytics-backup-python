@@ -1,7 +1,7 @@
 from analytics.params import AnalyticsParams
 
 
-def get_report(analytics, params: AnalyticsParams):
+def get_report(analytics, params: AnalyticsParams, pageToken=None):
     """Queries the Analytics Reporting API V4.
 
     Args:
@@ -14,6 +14,7 @@ def get_report(analytics, params: AnalyticsParams):
             'reportRequests': [
                 {
                     'viewId': params.viewId,
+                    'pageToken': pageToken,
                     'dateRanges': [{'startDate': params.startDate, 'endDate': params.endDate}],
                     # https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
                     'metrics': [{'expression': 'ga:sessions'}, {'expression': 'ga:users'}, {'expression': 'ga:pageviews'}, {'expression': 'ga:exits'}],
