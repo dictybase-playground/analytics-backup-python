@@ -16,11 +16,8 @@ def get_report(analytics, params: AnalyticsParams):
                     'viewId': params.viewId,
                     'dateRanges': [{'startDate': params.startDate, 'endDate': params.endDate}],
                     # https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
-                    # 'metrics': [{'expression': 'ga:sessions'}, {'expression': 'ga:users'}, {'expression': 'ga:pageviews'}, {'expression': 'ga:exits'}],
-                    # 'dimensions': [{'name': 'ga:date'}, {'name': 'ga:clientId'}, {'name': 'ga:pagePath'}, {'name': 'ga:previousPagePath'}, {'name': 'ga:country'}]
-                    'metrics': [{'expression': 'ga:sessions'}],
-                    'dimensions': [{'name': 'ga:pagePath'}],
-                    'orderBys': [{"fieldName": "ga:sessions", "sortOrder": "DESCENDING"}],
+                    'metrics': [{'expression': 'ga:sessions'}, {'expression': 'ga:users'}, {'expression': 'ga:pageviews'}, {'expression': 'ga:exits'}],
+                    'dimensions': [{'name': 'ga:date'}, {'name': 'ga:clientId'}, {'name': 'ga:pagePath'}, {'name': 'ga:previousPagePath'}, {'name': 'ga:country'}],
                 }]
         }
     ).execute()

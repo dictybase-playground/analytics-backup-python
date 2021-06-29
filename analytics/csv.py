@@ -6,30 +6,23 @@ def save_response(response):
 
     Args:
       response: An Analytics Reporting API V4 response.
+      https://developers.google.com/analytics/devguides/reporting/core/v4/basics#response_body
     """
-    dimensionList = []
-    valueList = []
-    for report in response.get('reports', []):
-
-        columnHeader = report.get('columnHeader', {})
-        dimensionHeaders = columnHeader.get('dimensions', [])
-        metricHeaders = columnHeader.get(
-            'metricHeader', {}).get('metricHeaderEntries', [])
-
-        for row in report.get('data', {}).get('rows', []):
-            dimensions = row.get('dimensions', [])
-            dateRangeValues = row.get('metrics', [])
-
-            for _, dimension in zip(dimensionHeaders, dimensions):
-                dimensionList.append(dimension)
-
-            for _, values in enumerate(dateRangeValues):
-                for _, value in zip(metricHeaders, values.get('values')):
-                    valueList.append(value)
-
-        data = pd.DataFrame()
-        data["Sessions"] = valueList
-        data["pagePath"] = dimensionList
-        data = data[["pagePath", "Sessions"]]
-
-        data.to_csv("parameter_pages.csv")
+    # get necessary properties from json
+    reports = response['reports'][0]
+    columnHeaders = reports['columnHeader']['dimensions']
+    metricHeaders = reports['columnHeader']['metricHeader']['metricHeaderEntries']
+    # use dimensions and metrics both as column headers
+    columns = columnHeaders
+    for metric in metricHeaders:
+        columns.append(metric['name'])
+    # normalize the json response into flat table split into dimensions and metrics
+    data = pd.json_normalize(reports['data']['rows'])
+    data_dimensions = pd.DataFrame(data['dimensions'].tolist())
+    data_metrics = pd.DataFrame(data['metrics'].tolist())
+    # use lambda to only get values list
+    data_metrics = data_metrics.applymap(lambda x: x['values'])
+    data_metrics = pd.DataFrame(data_metrics[0].tolist())
+    result = pd.concat([data_dimensions, data_metrics],
+                       axis=1, ignore_index=True)
+    result.to_csv("analytics.csv", header=columns)
