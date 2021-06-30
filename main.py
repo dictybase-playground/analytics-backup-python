@@ -11,17 +11,24 @@ from upload.params import MinioParams
 from upload.client import upload_report
 
 
-def main():
-    args = parse_cmdline()
+def save_analytics(args, viewId):
+    """Queries the Analytics Reporting API V4 and saves to CSV.
+
+    Args:
+      args: Object with parsed arguments.
+      viewId: str
+    Returns:
+      CSV filename: str
+    """
     params = AnalyticsParams(
-        viewId=args.viewId,
+        viewId=viewId,
         startDate=args.startDate,
         endDate=args.endDate,
         dimensions=args.dimensions,
         metrics=args.metrics
     )
 
-    cfg.logger.info("fetching google analytics data...")
+    cfg.logger.info(f"fetching google analytics data for view id {viewId}")
     analytics = initialize_analyticsreporting()
     response = get_report(analytics, params)
     data = parse_response(response)
@@ -40,16 +47,24 @@ def main():
     cfg.logger.info(f"finished retrieving {len(data.index)} results")
     csv = save_response(data, headers, params.viewId)
     cfg.logger.info(f"successfully saved report to {csv}")
+    return csv
 
-    # upload result to minio
-    minioParams = MinioParams(
-        endpoint=args.endpoint,
-        accessKey=args.accessKey,
-        secretKey=args.secretKey,
-        bucket=args.bucket,
-        filename=csv
-    )
-    upload_report(minioParams)
+
+def main():
+    args = parse_cmdline()
+
+    views = args.viewIds.split(",")
+    for id in views:
+        csv = save_analytics(args, id)
+        # upload result to minio
+        minioParams = MinioParams(
+            endpoint=args.endpoint,
+            accessKey=args.accessKey,
+            secretKey=args.secretKey,
+            bucket=args.bucket,
+            filename=csv
+        )
+        upload_report(minioParams)
 
 
 if __name__ == '__main__':

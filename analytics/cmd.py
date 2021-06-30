@@ -10,7 +10,7 @@ def parse_cmdline():
     parser = argparse.ArgumentParser(
         description='generate csv report from google analytics')
     parser.add_argument(
-        "-v", "--viewId", help="view id for analytics property", required=True
+        "-v", "--viewIds", help="list of view ids for analytics property separated by comma (i.e. 123456,888888)", required=True
     )
     parser.add_argument(
         "-s", "--startDate", help="start date for analytics range", required=True)
