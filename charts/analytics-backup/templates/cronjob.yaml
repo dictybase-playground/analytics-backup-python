@@ -25,5 +25,5 @@ spec:
                   key: minio.accesskey
             image: {{ .Values.image.repository }}:{{ .Values.image.tag}}
             command: ["poetry", "run", "python3", "main.py"]
-            args: ["-v", {{ .Values.analytics.viewId }}, "-s", {{ .Values.analytics.startDate }}, "-e", {{ .Values.analytics.endDate }}, "--endpoint", {{ .Values.minio.endpoint }}, "--accessKey", "$(ACCESS_KEY)", "--secretKey", "$(SECRET_KEY)"]
+            args: ["-v", "{{ .Values.analytics.viewId }}", "-s", {{ .Values.analytics.startDate }}, "-e", {{ .Values.analytics.endDate }}, "--endpoint", {{ .Values.minio.endpoint }}, "--accessKey", "$(ACCESS_KEY)", "--secretKey", "$(SECRET_KEY)"]
           restartPolicy: OnFailure
