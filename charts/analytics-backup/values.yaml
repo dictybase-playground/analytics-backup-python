@@ -21,11 +21,24 @@ minio:
   bucket: google-analytics
 
 analytics:
-  # viewIds: 999999,123456,899898
+  viewIds: 
+    - "999999"
+    - "123456"
+    - "899898"
   startDate: today
   endDate: today
-  dimensions: ga:date,ga:clientId,ga:pagePath,ga:previousPagePath,ga:city,ga:country
-  metrics: ga:sessions,ga:users,ga:pageviews,ga:exits
+  dimensions: 
+    - "ga:date"
+    - "ga:clientId"
+    - "ga:pagePath"
+    - "ga:previousPagePath"
+    - "ga:city"
+    - "ga:country"
+  metrics: 
+    - "ga:sessions"
+    - "ga:users"
+    - "ga:pageviews"
+    - "ga:exits"
 
 
 # resources: {}
