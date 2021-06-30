@@ -1,3 +1,4 @@
+import cfg
 import pandas as pd
 from analytics.cmd import parse_cmdline
 from analytics.service import initialize_analyticsreporting
@@ -19,6 +20,7 @@ def main():
         metrics=args.metrics
     )
 
+    cfg.logger.info("fetching google analytics data...")
     analytics = initialize_analyticsreporting()
     response = get_report(analytics, params)
     data = parse_response(response)
@@ -34,9 +36,9 @@ def main():
         newData = parse_response(response)
         data = pd.concat([data, newData], ignore_index=True)
 
-    print("finished fetching results")
+    cfg.logger.info(f"finished retrieving {len(data.index)} results")
     save_response(data, headers, params.outputFile)
-    print(f"successfully saved report to {params.outputFile}")
+    cfg.logger.info(f"successfully saved report to {params.outputFile}")
 
 
 if __name__ == '__main__':
