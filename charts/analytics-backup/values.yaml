@@ -1,0 +1,45 @@
+# Default values for analytics-backup.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: dictybase/analytics-backup
+  tag: develop
+  pullPolicy: IfNotPresent
+
+service:
+  name: analytics-backup
+  type: NodePort
+  port: 9513
+
+minio:
+  # akey:
+  # skey:
+  endpoint: ericstorage.dictybase.dev
+  bucket: google-analytics
+
+analytics:
+  # viewId: 99999
+  startDate: today
+  endDate: today
+
+
+# resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# nodeSelector: {}
+
+# tolerations: []
+
+# affinity: {}

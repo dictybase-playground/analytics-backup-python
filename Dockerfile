@@ -9,4 +9,3 @@ RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction
 
 COPY . /app
-CMD ["poetry", "run", "python3", "main.py"]

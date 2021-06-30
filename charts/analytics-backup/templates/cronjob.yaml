@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "analytics-backup.fullname" . }}
+  labels:
+{{ include "analytics-backup.labels" . | indent 4 }}
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ include "analytics-backup.fullname" . }}
+            env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dictybase-configuration
+                  key: minio.secretkey
+            - name: ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dictybase-configuration
+                  key: minio.accesskey
+            image: {{ .Values.image.repository }}:{{ .Values.image.tag}}
+            command: ["poetry", "run", "python3", "main.py"]
+            args: ["-v", {{ .Values.analytics.viewId }}, "-s", {{ .Values.analytics.startDate }}, "-e", {{ .Values.analytics.endDate }}, "--endpoint", {{ .Values.minio.endpoint }}, "--accessKey", "$(ACCESS_KEY)", "--secretKey", "$(SECRET_KEY)"]
+          restartPolicy: OnFailure
