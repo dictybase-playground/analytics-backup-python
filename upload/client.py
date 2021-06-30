@@ -4,6 +4,11 @@ from upload.params import MinioParams
 
 
 def upload_report(params: MinioParams):
+    """Queries the Analytics Reporting API V4.
+
+    Args:
+      params: DataClass
+    """
     # create minio client
     client = Minio(params.endpoint, access_key=params.accessKey,
                    secret_key=params.secretKey)

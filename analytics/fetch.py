@@ -6,9 +6,12 @@ def get_report(analytics, params: AnalyticsParams, pageToken=None):
 
     Args:
       analytics: An authorized Analytics Reporting API V4 service object.
+      params: DataClass
+      pageToken: str
     Returns:
       The Analytics Reporting API V4 response.
     """
+    # convert dimensions and metrics strings into necessary objects
     splitDimensions = params.dimensions.split(",")
     dimensions = list(map((lambda x: {'name': x}), splitDimensions))
     splitMetrics = params.metrics.split(",")

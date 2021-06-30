@@ -10,7 +10,7 @@ def get_csv_headers(response):
       response: An Analytics Reporting API V4 response.
       https://developers.google.com/analytics/devguides/reporting/core/v4/basics#response_body
     Returns:
-      The list of header columns.
+      The list of header column strings.
     """
     # get necessary properties from json
     reports = response['reports'][0]
@@ -31,7 +31,7 @@ def save_response(result: pd.DataFrame, columns: List[str], viewId: str):
       columns: List[str]
       viewId: string
     Returns:
-      The filename of the report.
+      The filename of the report (string).
     """
     timestr = time.strftime("%Y%m%d")
     filename = timestr + "-" + viewId + ".csv"
