@@ -7,6 +7,8 @@ from analytics.parse import parse_response
 from analytics.csv import get_csv_headers
 from analytics.csv import save_response
 from analytics.params import AnalyticsParams
+from upload.params import MinioParams
+from upload.client import upload_report
 
 
 def main():
@@ -39,6 +41,16 @@ def main():
     cfg.logger.info(f"finished retrieving {len(data.index)} results")
     save_response(data, headers, params.outputFile)
     cfg.logger.info(f"successfully saved report to {params.outputFile}")
+
+    # upload result to minio
+    minioParams = MinioParams(
+        endpoint=args.endpoint,
+        accessKey=args.accessKey,
+        secretKey=args.secretKey,
+        bucket=args.bucket,
+        filename=args.outputFile
+    )
+    upload_report(minioParams)
 
 
 if __name__ == '__main__':

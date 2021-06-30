@@ -6,7 +6,6 @@ def parse_cmdline():
 
     Returns:
         An object with parsed attributes.
-
     """
     parser = argparse.ArgumentParser(
         description='generate csv report from google analytics')
@@ -25,4 +24,12 @@ def parse_cmdline():
     parser.add_argument(
         "-m", "--metrics", help="metrics to export for analytics property separated by comma (i.e. ga:sessions,ga:users)", default="ga:sessions,ga:users,ga:pageviews,ga:exits"
     )
+    parser.add_argument(
+        "--endpoint", help="minio endpoint", required=True)
+    parser.add_argument(
+        "--accessKey", help="minio access key", required=True)
+    parser.add_argument(
+        "--secretKey", help="minio secret key", required=True)
+    parser.add_argument(
+        "--bucket", help="minio bucket to use as storage (will be created if it doesn't exist)", default="google-analytics")
     return parser.parse_args()
