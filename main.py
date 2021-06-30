@@ -14,7 +14,9 @@ def main():
         viewId=args.viewId,
         startDate=args.startDate,
         endDate=args.endDate,
-        outputFile=args.outputFile
+        outputFile=args.outputFile,
+        dimensions=args.dimensions,
+        metrics=args.metrics
     )
 
     analytics = initialize_analyticsreporting()

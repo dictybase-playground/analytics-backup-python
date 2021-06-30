@@ -9,6 +9,11 @@ def get_report(analytics, params: AnalyticsParams, pageToken=None):
     Returns:
       The Analytics Reporting API V4 response.
     """
+    splitDimensions = params.dimensions.split(",")
+    dimensions = list(map((lambda x: {'name': x}), splitDimensions))
+    splitMetrics = params.metrics.split(",")
+    metrics = list(map((lambda x: {'expression': x}), splitMetrics))
+
     return analytics.reports().batchGet(
         body={
             'reportRequests': [
@@ -17,8 +22,8 @@ def get_report(analytics, params: AnalyticsParams, pageToken=None):
                     'pageToken': pageToken,
                     'dateRanges': [{'startDate': params.startDate, 'endDate': params.endDate}],
                     # https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
-                    'metrics': [{'expression': 'ga:sessions'}, {'expression': 'ga:users'}, {'expression': 'ga:pageviews'}, {'expression': 'ga:exits'}],
-                    'dimensions': [{'name': 'ga:date'}, {'name': 'ga:clientId'}, {'name': 'ga:pagePath'}, {'name': 'ga:previousPagePath'}, {'name': 'ga:country'}],
+                    'metrics': metrics,
+                    'dimensions': dimensions,
                 }]
         }
     ).execute()

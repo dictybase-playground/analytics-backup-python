@@ -7,3 +7,5 @@ class AnalyticsParams:
     startDate: str
     endDate: str
     outputFile: str
+    dimensions: str
+    metrics: str
