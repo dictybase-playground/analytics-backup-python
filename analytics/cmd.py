@@ -17,8 +17,6 @@ def parse_cmdline():
     parser.add_argument(
         "-e", "--endDate", help="end date for analytics range", required=True)
     parser.add_argument(
-        "-o", "--outputFile", help="csv filename to use for output data", default="analytics.csv")
-    parser.add_argument(
         "-d", "--dimensions", help="metrics to export for analytics property separated by comma (i.e. ga:date,ga:clientId)", default="ga:date,ga:clientId,ga:pagePath,ga:previousPagePath,ga:country"
     )
     parser.add_argument(

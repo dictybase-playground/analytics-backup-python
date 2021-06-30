@@ -17,7 +17,6 @@ def main():
         viewId=args.viewId,
         startDate=args.startDate,
         endDate=args.endDate,
-        outputFile=args.outputFile,
         dimensions=args.dimensions,
         metrics=args.metrics
     )
@@ -39,8 +38,8 @@ def main():
         data = pd.concat([data, newData], ignore_index=True)
 
     cfg.logger.info(f"finished retrieving {len(data.index)} results")
-    save_response(data, headers, params.outputFile)
-    cfg.logger.info(f"successfully saved report to {params.outputFile}")
+    csv = save_response(data, headers, params.viewId)
+    cfg.logger.info(f"successfully saved report to {csv}")
 
     # upload result to minio
     minioParams = MinioParams(
@@ -48,7 +47,7 @@ def main():
         accessKey=args.accessKey,
         secretKey=args.secretKey,
         bucket=args.bucket,
-        filename=args.outputFile
+        filename=csv
     )
     upload_report(minioParams)
 

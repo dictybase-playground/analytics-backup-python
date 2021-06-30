@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from typing import List
 
@@ -22,12 +23,17 @@ def get_csv_headers(response):
     return columns
 
 
-def save_response(result: pd.DataFrame, columns: List[str], outputFile: str):
+def save_response(result: pd.DataFrame, columns: List[str], viewId: str):
     """Saves DataFrame to a CSV file with specified header columns.
 
     Args:
       result: DataFrame.
       columns: List[str]
-      outputFile: string
+      viewId: string
+    Returns:
+      The filename of the report.
     """
-    result.to_csv(outputFile, header=columns)
+    timestr = time.strftime("%Y%m%d")
+    filename = timestr + "-" + viewId + ".csv"
+    result.to_csv(filename, header=columns)
+    return filename

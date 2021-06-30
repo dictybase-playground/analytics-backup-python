@@ -6,6 +6,5 @@ class AnalyticsParams:
     viewId: str
     startDate: str
     endDate: str
-    outputFile: str
     dimensions: str
     metrics: str
