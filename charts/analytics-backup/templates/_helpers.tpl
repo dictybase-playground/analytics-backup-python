@@ -44,3 +44,23 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
+{{/*
+Get list of view IDs.
+*/}}
+{{- define "analytics-backup.viewIds" -}}
+{{ .Values.analytics.viewIds | join "," }}
+{{- end -}}
+
+{{/*
+Get list of dimensions.
+*/}}
+{{- define "analytics-backup.dimensions" -}}
+{{ .Values.analytics.dimensions | join "," }}
+{{- end -}}
+
+{{/*
+Get list of metrics.
+*/}}
+{{- define "analytics-backup.metrics" -}}
+{{ .Values.analytics.metrics | join "," }}
+{{- end -}}
